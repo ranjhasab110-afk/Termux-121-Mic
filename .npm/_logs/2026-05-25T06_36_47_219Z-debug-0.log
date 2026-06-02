@@ -1,0 +1,75 @@
+0 verbose cli /data/data/com.termux/files/usr/bin/node /data/data/com.termux/files/usr/bin/npm
+1 info using npm@11.15.0
+2 info using node@v26.2.0
+3 silly config load:file:/data/data/com.termux/files/usr/lib/node_modules/npm/npmrc
+4 silly config load:file:/data/data/com.termux/files/home/.npmrc
+5 silly config load:file:/data/data/com.termux/files/usr/etc/npmrc
+6 verbose title npm install local-ssl-proxy
+7 verbose argv "install" "--global" "local-ssl-proxy"
+8 verbose logfile logs-max:10 dir:/data/data/com.termux/files/home/.npm/_logs/2026-05-25T06_36_47_219Z-
+9 verbose logfile /data/data/com.termux/files/home/.npm/_logs/2026-05-25T06_36_47_219Z-debug-0.log
+10 silly packumentCache heap:1174405120 maxSize:293601280 maxEntrySize:146800640
+11 silly logfile done cleaning log files
+12 silly idealTree buildDeps
+13 silly fetch manifest local-ssl-proxy@*
+14 silly packumentCache full:https://registry.npmjs.org/local-ssl-proxy cache-miss
+15 http fetch GET 200 https://registry.npmjs.org/local-ssl-proxy 1074ms (cache miss)
+16 silly packumentCache full:https://registry.npmjs.org/local-ssl-proxy set size:undefined disposed:false
+17 silly placeDep ROOT local-ssl-proxy@2.0.5 OK for:  want: *
+18 silly fetch manifest ansi-colors@^4.1.3
+19 silly packumentCache full:https://registry.npmjs.org/ansi-colors cache-miss
+20 silly fetch manifest commander@^10.0.0
+21 silly packumentCache full:https://registry.npmjs.org/commander cache-miss
+22 silly fetch manifest http-proxy@^1.18.1
+23 silly packumentCache full:https://registry.npmjs.org/http-proxy cache-miss
+24 http fetch GET 200 https://registry.npmjs.org/commander 220ms (cache miss)
+25 silly packumentCache full:https://registry.npmjs.org/commander set size:undefined disposed:false
+26 http fetch GET 200 https://registry.npmjs.org/http-proxy 969ms (cache revalidated)
+27 silly packumentCache full:https://registry.npmjs.org/http-proxy set size:183156 disposed:false
+28 http fetch GET 200 https://registry.npmjs.org/ansi-colors 1005ms (cache miss)
+29 silly packumentCache full:https://registry.npmjs.org/ansi-colors set size:undefined disposed:false
+30 silly placeDep node_modules/local-ssl-proxy ansi-colors@4.1.3 OK for: local-ssl-proxy@2.0.5 want: ^4.1.3
+31 silly placeDep node_modules/local-ssl-proxy commander@10.0.1 OK for: local-ssl-proxy@2.0.5 want: ^10.0.0
+32 silly placeDep node_modules/local-ssl-proxy http-proxy@1.18.1 OK for: local-ssl-proxy@2.0.5 want: ^1.18.1
+33 silly fetch manifest eventemitter3@^4.0.0
+34 silly packumentCache full:https://registry.npmjs.org/eventemitter3 cache-miss
+35 silly fetch manifest requires-port@^1.0.0
+36 silly packumentCache full:https://registry.npmjs.org/requires-port cache-miss
+37 silly fetch manifest follow-redirects@^1.0.0
+38 silly packumentCache full:https://registry.npmjs.org/follow-redirects cache-miss
+39 http fetch GET 200 https://registry.npmjs.org/requires-port 266ms (cache revalidated)
+40 silly packumentCache full:https://registry.npmjs.org/requires-port set size:8110 disposed:false
+41 http fetch GET 200 https://registry.npmjs.org/follow-redirects 272ms (cache revalidated)
+42 silly packumentCache full:https://registry.npmjs.org/follow-redirects set size:188945 disposed:false
+43 http fetch GET 200 https://registry.npmjs.org/eventemitter3 291ms (cache revalidated)
+44 silly packumentCache full:https://registry.npmjs.org/eventemitter3 set size:92292 disposed:false
+45 silly placeDep node_modules/local-ssl-proxy eventemitter3@4.0.7 OK for: http-proxy@1.18.1 want: ^4.0.0
+46 silly placeDep node_modules/local-ssl-proxy follow-redirects@1.16.0 OK for: http-proxy@1.18.1 want: ^1.0.0
+47 silly placeDep node_modules/local-ssl-proxy requires-port@1.0.0 OK for: http-proxy@1.18.1 want: ^1.0.0
+48 silly reify moves {}
+49 http cache follow-redirects@https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.16.0.tgz 0ms (cache hit)
+50 http cache eventemitter3@https://registry.npmjs.org/eventemitter3/-/eventemitter3-4.0.7.tgz 0ms (cache hit)
+51 http cache http-proxy@https://registry.npmjs.org/http-proxy/-/http-proxy-1.18.1.tgz 0ms (cache hit)
+52 http cache commander@https://registry.npmjs.org/commander/-/commander-10.0.1.tgz 0ms (cache hit)
+53 http cache ansi-colors@https://registry.npmjs.org/ansi-colors/-/ansi-colors-4.1.3.tgz 1ms (cache hit)
+54 http cache local-ssl-proxy@https://registry.npmjs.org/local-ssl-proxy/-/local-ssl-proxy-2.0.5.tgz 0ms (cache hit)
+55 http cache requires-port@https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz 0ms (cache hit)
+56 silly tarball no local data for commander@https://registry.npmjs.org/commander/-/commander-10.0.1.tgz. Extracting by manifest.
+57 silly tarball no local data for ansi-colors@https://registry.npmjs.org/ansi-colors/-/ansi-colors-4.1.3.tgz. Extracting by manifest.
+58 silly tarball no local data for local-ssl-proxy@https://registry.npmjs.org/local-ssl-proxy/-/local-ssl-proxy-2.0.5.tgz. Extracting by manifest.
+59 http fetch GET 200 https://registry.npmjs.org/ansi-colors/-/ansi-colors-4.1.3.tgz 237ms (cache miss)
+60 http fetch GET 200 https://registry.npmjs.org/commander/-/commander-10.0.1.tgz 265ms (cache miss)
+61 http fetch GET 200 https://registry.npmjs.org/local-ssl-proxy/-/local-ssl-proxy-2.0.5.tgz 564ms (cache miss)
+62 silly ADD node_modules/local-ssl-proxy
+63 silly ADD node_modules/local-ssl-proxy/node_modules/requires-port
+64 silly ADD node_modules/local-ssl-proxy/node_modules/follow-redirects
+65 silly ADD node_modules/local-ssl-proxy/node_modules/eventemitter3
+66 silly ADD node_modules/local-ssl-proxy/node_modules/http-proxy
+67 silly ADD node_modules/local-ssl-proxy/node_modules/commander
+68 silly ADD node_modules/local-ssl-proxy/node_modules/ansi-colors
+69 verbose cwd /data/data/com.termux/files/home/121_web_mic
+70 verbose os Linux 6.1.145-android14-11-gfa1d6308d1fe-ab14691759
+71 verbose node v26.2.0
+72 verbose npm  v11.15.0
+73 verbose exit 0
+74 info ok

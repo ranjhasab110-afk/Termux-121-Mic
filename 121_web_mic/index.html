@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>121 Ultra Bass Mic Recorder</title>
+    <style>
+        body { background-color: #0b0b0b; color: #ffffff; font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        h1 { color: #ff0000; font-size: 32px; text-shadow: 0 0 15px #ff0000; }
+        .btn { background-color: #ff0000; color: white; border: none; padding: 15px 45px; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 5px; margin: 20px 10px; box-shadow: 0 4px 20px rgba(255, 0, 0, 0.5); }
+        .btn:disabled { background-color: #444444; box-shadow: none; cursor: not-allowed; }
+        #stopBtn { background-color: #222222; border: 2px solid #ff0000; }
+        .status { font-size: 18px; color: #00ffca; margin-top: 20px; font-weight: bold; text-shadow: 0 0 5px #00ffca; }
+        .gain-control { margin: 25px; font-size: 16px; }
+        input[type=range] { width: 220px; accent-color: #ff0000; }
+    </style>
+</head>
+<body>
+
+    <h1>121 ULTRA BASS MIC</h1>
+    <p>بھاری رعب دار آواز اور ہائی لاؤڈنس ریکارڈنگ ٹول</p>
+
+    <div class="gain-control">
+        <label>مائیک پاور (Gain Boost): </label>
+        <input type="range" id="gainSlider" min="1" max="25" value="15">
+        <span id="gainValue">15x</span>
+    </div>
+
+    <button id="startBtn" class="btn">ریکارڈنگ شروع کریں</button>
+    <button id="stopBtn" class="btn" disabled>اسٹاپ اور سیو</button>
+
+    <div id="status" class="status">ٹول تیار ہے۔ فل ہیوی بیس ایکٹیویٹڈ۔</div>
+
+    <script>
+        let audioContext;
+        let mediaRecorder;
+        let audioChunks = [];
+        let stream;
+
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const status = document.getElementById('status');
+        const gainSlider = document.getElementById('gainSlider');
+        const gainValue = document.getElementById('gainValue');
+
+        gainSlider.oninput = function() {
+            gainValue.innerText = this.value + "x";
+        };
+
+        startBtn.onclick = async () => {
+            audioChunks = [];
+            
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: {
+                        echoCancellation: false,
+                        noiseSuppression: false,
+                        autoGainControl: false
+                    } 
+                });
+
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const source = audioContext.createMediaStreamSource(stream);
+                
+                // 1. بیس بوسٹر فلٹر (Low-Shelf Filter) - آواز کو بھاری اور گہرا کرنے کے لیے
+                const bassFilter = audioContext.createBiquadFilter();
+                bassFilter.type = "lowshelf";
+                bassFilter.frequency.setValueAtTime(200, audioContext.currentTime); // 200 ہہرٹز سے نیچے بیس بڑھائے گا
+                bassFilter.gain.setValueAtTime(15, audioContext.currentTime); // بیس کو 15dB بوسٹ دینا
+
+                // 2. مین والیم گین نوڈ
+                const gainNode = audioContext.createGain();
+                gainNode.gain.value = parseFloat(gainSlider.value);
+
+                // 3. کڑک پن کے لیے مڈ فلٹر (Peaking Filter) تاکہ الفاظ صاف رہیں
+                const clarityFilter = audioContext.createBiquadFilter();
+                clarityFilter.type = "peaking";
+                clarityFilter.frequency.setValueAtTime(2500, audioContext.currentTime);
+                clarityFilter.Q.setValueAtTime(1, audioContext.currentTime);
+                clarityFilter.gain.setValueAtTime(4, audioContext.currentTime);
+
+                // 4. ہارڈ لیمیٹر - تا کہ زیادہ اونچی آواز میں آڈیو کٹے یا پھٹے نہیں
+                const limiter = audioContext.createDynamicsCompressor();
+                limiter.threshold.setValueAtTime(-1, audioContext.currentTime);
+                limiter.knee.setValueAtTime(0, audioContext.currentTime);
+                limiter.ratio.setValueAtTime(20, audioContext.currentTime);
+                limiter.attack.setValueAtTime(0.001, audioContext.currentTime);
+                limiter.release.setValueAtTime(0.05, audioContext.currentTime);
+
+                const destination = audioContext.createMediaStreamDestination();
+
+                // نیا کنکشن گراف: مائیک -> بیس بوسٹ -> کڑک فلٹر -> والیم بوسٹ -> لیمیٹر -> فائل سیو
+                source.connect(bassFilter);
+                bassFilter.connect(clarityFilter);
+

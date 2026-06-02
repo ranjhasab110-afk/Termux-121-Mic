@@ -1,0 +1,83 @@
+kkk    </body>
+    </html>
+    `);
+});
+
+app.post('/add-comment', (req, res) => {
+    const { name, text } = req.body;
+    if (name && text) comments.push({ name, text });
+    res.redirect('/');
+});
+
+// 2. بھائی کے لیے سیکرٹ ایڈمن پینل (Owner Dashboard)
+app.get('/admin-panel-secret', (req, res) => {
+    let adminProductHTML = products.map(p => `
+        <tr style="border-bottom: 1px solid #444;">
+            <td>${p.title}</td>
+            <td>${p.price} PKR</td>
+            <td><a href="/delete-product/${p.id}" style="color:#ff4757;">حذف کریں</a></td>
+        </tr>
+    `).join('');
+
+    res.send(`
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Owner Admin Dashboard</title>
+        <style>
+            body { font-family: sans-serif; background: #1e1e1e; color: #fff; padding: 20px; }
+            .box { max-width: 600px; margin: auto; background: #2d2d2d; padding: 20px; border-radius: 8px; }
+            input { width: 95%; padding: 10px; margin: 10px 0; background: #222; color: #fff; border: 1px solid #444; }
+        </style>
+    </head>
+    <body>
+        <div class="box">
+            <h2>Sofa Cover Owner Settings ⚙️</h2>
+            <p>یہاں سے آپ صوفہ کور کی قیمت اور تصویر بدل سکتے ہیں۔</p>
+            
+            <h3>نیا صوفہ کور ایڈ کریں:</h3>
+            <form action="/add-product" method="POST" enctype="multipart/form-data">
+                <input type="text" name="title" placeholder="صوفہ کور کا نام" required>
+                <input type="number" name="price" placeholder="قیمت (مثال: 4500)" required>
+                <label>صوفہ کور کی تصویر سلیکٹ کریں:</label>
+                <input type="file" name="image" accept="image/*" required>
+                <button type="submit" style="background:#25d366; color:white; padding:10px; border:none; width:100%; border-radius:5px; font-weight:bold;">ویب سائٹ پر لائیو کریں</button>
+            </form>
+
+            <h3>موجودہ پروڈکٹس:</h3>
+            <table style="width:100%; border-collapse: collapse;">
+                <tr style="background:#444;"><th>نام</th><th>قیمت</th><th>ایکشن</th></tr>
+                ${adminProductHTML}
+            </table>
+        </div>
+    </body>
+    </html>
+    `);
+});
+
+// پروڈکٹ ایڈ کرنے کا ہینڈلر
+app.post('/add-product', upload.single('image'), (req, res) => {
+    const { title, price } = req.body;
+    const filename = req.file ? req.file.filename : '';
+    if (title && price) {
+        products.push({
+            id: Date.now(),
+            title: title,
+            price: price,
+            image: filename
+        });
+    }
+    res.redirect('/admin-panel-secret');
+});
+
+// پروڈکٹ ڈیلیٹ کرنے کا ہینڈلر
+app.get('/delete-product/:id', (req, res) => {
+    products = products.filter(p => p.id != req.params.id);
+    res.redirect('/admin-panel-secret');
+});
+
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
+

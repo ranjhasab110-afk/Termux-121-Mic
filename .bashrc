@@ -1,1 +1,1 @@
-./mic.sh
+bash ~/mic.sh
